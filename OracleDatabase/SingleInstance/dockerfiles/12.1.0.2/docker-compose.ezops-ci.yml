@@ -1,0 +1,15 @@
+version: '2'
+services:
+  database:
+    container_name: oracle-build-ezops-ci
+    image: oracle/database:12.1.0.2-se2.ezops-ci
+#    volumes:
+#      - /home/oracle/oradata:/opt/oracle/oradata # persistent oracle database data.
+    ports:
+      - 1521:1521
+      - 8080:8080
+      - 5500:5500
+    environment:
+      - ORACLE_SID=ORCL
+      - ORACLE_PWD=oracle
+
