@@ -14,7 +14,7 @@ echo #Step 5
 echo docker commit -m "Image with prebuilt database" oracle-build-novolume oracle/database:12.1.0.2-se2.ezops-prebuilt
 echo 
 echo #Step 6
-docker build --squash --force-rm=true --no-cache=true -t oracle/database:12.1.0.2-se2.ezops-ci -f Dockerfile.se2.ezops-ci .
+echo docker build --force-rm=true --no-cache=true -t oracle/database:12.1.0.2-se2.ezops-ci -f Dockerfile.se2.ezops-ci .
 
 echo #Step 7
 docker tag oracle/database:12.1.0.2-se2.novolume 258357540281.dkr.ecr.us-east-1.amazonaws.com/oracle/database:12.1.0.2-se2.novolume
