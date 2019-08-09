@@ -2,7 +2,7 @@ version: '2'
 services:
   database:
     container_name: oracle-build-novolume
-    image: oracle/database:12.1.0.2-se2.novolume
+    image: oracle/database:12.1.0.2-${ORACLE_DOCKER_BUILD_VERSION}.novolume
 #    volumes:
 #      - /home/oracle/oradata:/opt/oracle/oradata # persistent oracle database data.
     ports:

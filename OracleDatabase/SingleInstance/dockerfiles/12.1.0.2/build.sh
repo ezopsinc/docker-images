@@ -1,7 +1,13 @@
-echo Step 0
-echo docker build --squash -t oracle/database:12.1.0.2-se2 -f Dockerfile.se2 .
+
+
+ORACLE_DOCKER_BUILD_VERSION=ee
+if [ "$1" != "" ]
+then
+	ORACLE_DOCKER_BUILD_VERSION=se2
+fi
+
 echo #Step 1
-echo docker build --squash -t oracle/database:12.1.0.2-se2.novolume -f Dockerfile.se2.novolume .
+echo docker build --squash -t oracle/database:12.1.0.2-${ORACLE_DOCKER_BUILD_VERSION}.novolume -f Dockerfile.${ORACLE_DOCKER_BUILD_VERSION}.novolume .
 echo
 echo #Step 2
 echo docker-compose -f docker-compose.novolume.yml up -d
@@ -13,20 +19,15 @@ echo #Step 4
 echo docker stop -t 30 oracle-build-novolume
 echo
 echo #Step 5
-echo docker commit -m "Image with prebuilt database" oracle-build-novolume oracle/database:12.1.0.2-se2.ezops-prebuilt
+echo docker commit -m "Image with prebuilt database" oracle-build-novolume oracle/database:12.1.0.2-${ORACLE_DOCKER_BUILD_VERSION}.ezops-prebuilt
 echo 
-echo #Step 6
-echo docker build --force-rm=true --no-cache=true -t oracle/database:12.1.0.2-se2.ezops-ci -f Dockerfile.se2.ezops-ci .
+echo
 
-echo #Step 7
-docker tag oracle/database:12.1.0.2-se2 881690683707.dkr.ecr.us-east-1.amazonaws.com/oracle/database:12.1.0.2-se2
-docker tag oracle/database:12.1.0.2-se2.novolume 881690683707.dkr.ecr.us-east-1.amazonaws.com/oracle/database:12.1.0.2-se2.novolume
-docker tag oracle/database:12.1.0.2-se2.ezops-prebuilt 881690683707.dkr.ecr.us-east-1.amazonaws.com/oracle/database:12.1.0.2-se2.ezops-prebuilt
-docker tag oracle/database:12.1.0.2-se2.ezops-ci 881690683707.dkr.ecr.us-east-1.amazonaws.com/oracle/database:12.1.0.2-se2.ezops-ci
-docker push 881690683707.dkr.ecr.us-east-1.amazonaws.com/oracle/database:12.1.0.2-se2
-docker push 881690683707.dkr.ecr.us-east-1.amazonaws.com/oracle/database:12.1.0.2-se2.novolume
-docker push 881690683707.dkr.ecr.us-east-1.amazonaws.com/oracle/database:12.1.0.2-se2.ezops-prebuilt
-docker push 881690683707.dkr.ecr.us-east-1.amazonaws.com/oracle/database:12.1.0.2-se2.ezops-ci
+echo #Step 6
+echo
+echo docker tag oracle/database:12.1.0.2-${ORACLE_DOCKER_BUILD_VERSION}.ezops-prebuilt 881690683707.dkr.ecr.us-east-1.amazonaws.com/oracle/database:12.1.0.2-${ORACLE_DOCKER_BUILD_VERSION}.ezops-prebuilt
+echo
+echo docker push 881690683707.dkr.ecr.us-east-1.amazonaws.com/oracle/database:12.1.0.2-${ORACLE_DOCKER_BUILD_VERSION}.ezops-prebuilt
 
 
 
